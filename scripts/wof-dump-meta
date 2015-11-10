@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+# -*-python-*-
+
+import os
+import sys
+import logging
+import csv
+
+import mapzen.whosonfirst.meta
+
+if __name__ == '__main__':
+
+    import optparse
+    opt_parser = optparse.OptionParser()
+
+    opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='Be chatty (default is false)')
+    opt_parser.add_option('-r', '--relative', dest='relative', action='store_true', default=False, help='Ensure relative paths')
+    opt_parser.add_option('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Be chatty (default is false)')
+    options, args = opt_parser.parse_args()
+
+    if options.verbose:	
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+    fn = mapzen.whosonfirst.meta.fieldnames()
+
+    writer = csv.DictWriter(sys.stdout, fieldnames=fn)
+    writer.writeheader()
+
+    kwargs = {'paths': 'absolute'}
+
+    if options.relative:
+
+        kwargs['paths'] = 'relative'
+
+        if options.source == None:
+            logging.error("You specified relative paths but no source")
+            sys.exit()
+
+        kwargs['prefix'] = options.source
+
+    for path in args:
+
+    	path = os.path.abspath(path)
+        out = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
+
+        writer.writerow(out)
+

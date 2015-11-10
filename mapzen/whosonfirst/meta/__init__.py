@@ -30,9 +30,14 @@ def defaults():
 
     return defaults
 
-# TO DO STILL: what is the what with source and options.source
+def fieldnames():
 
-def dump_file(path):
+    stub = defaults()
+    fieldnames = stub.keys()
+    fieldnames.sort()
+    return fieldnames
+
+def dump_file(path, **kwargs):
 
         try:
             fh = open(path, 'r')
@@ -85,8 +90,10 @@ def dump_file(path):
 
         out['source'] = source
         
-        path = path.replace(options.source, "")
-        path = path.lstrip("/")
+        if kwargs.get('paths', 'absolute') == 'relative':
+
+            path = path.replace(kwargs.get('prefix', ''), "")
+            path = path.lstrip("/")
             
         out['path'] = path
 
@@ -99,6 +106,7 @@ def dump_file(path):
 
         supersedes = props.get('wof:supersedes', [])
         superseded_by = props.get('wof:superseded_by', [])
+
         out['supersedes'] = ",".join(map(str, supersedes))
         out['superseded_by'] = ",".join(map(str, superseded_by))
         

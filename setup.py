@@ -19,6 +19,7 @@ setup(
         ],
     packages=packages,
     scripts=[
+        'scripts/wof-dump-meta',
         ],
     download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.1',
     license='BSD')
