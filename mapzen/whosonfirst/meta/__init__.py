@@ -1,7 +1,9 @@
 # https://pythonhosted.org/setuptools/setuptools.html#namespace-packages
 __import__('pkg_resources').declare_namespace(__name__)
 
+import os
 import logging
+import hashlib
 import geojson
 
 def defaults():
@@ -28,6 +30,8 @@ def defaults():
 
     return defaults
 
+# TO DO STILL: what is the what with source and options.source
+
 def dump_file(path):
 
         try:
@@ -40,7 +44,7 @@ def dump_file(path):
         props = feature['properties']
         placetype = props.get('wof:placetype', None)
 
-        out = defaults
+        out = defaults()
 
         hash = hash_filehandle(fh)
         out['file_hash'] = hash
@@ -108,3 +112,12 @@ def dump_file(path):
         out['lbl_longitude'] = props.get('lbl:longitude', 0)
 
         return out
+
+def hash_file(path):
+    fh = open(path, 'r')
+    return hash_filehandle(fh)
+
+def hash_filehandle(fh):
+    fh.seek(0)
+    hash = hashlib.md5(fh.read()).hexdigest()
+    return hash

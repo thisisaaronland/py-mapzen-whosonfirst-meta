@@ -20,5 +20,5 @@ setup(
     packages=packages,
     scripts=[
         ],
-    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.9',
+    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.1',
     license='BSD')
