@@ -12,6 +12,7 @@ def defaults():
         'id': 0,
         'parent_id': -1,
         'name': '',
+        'placetype': '',
         'fullname': '',
         'source': '',
         'path' : '',
@@ -75,6 +76,8 @@ def dump_file(path, **kwargs):
             
         name = name.encode('utf8')
         out['name'] = name
+
+        out['placetype'] = props.get('wof:placetype')
 
         source = None
 
