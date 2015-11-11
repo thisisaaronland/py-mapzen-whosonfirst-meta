@@ -41,7 +41,7 @@ def update_metafile(source_meta, dest_meta, updated):
 
     writer = None
 
-    with atomicwrites.atomic_write(dest_meta, overwrite=True) as dest_fh:
+    with atomicwrites.atomic_write(dest_meta, mode='wb', overwrite=True) as dest_fh:
 
         for row in reader:
 
