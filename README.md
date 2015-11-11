@@ -2,11 +2,29 @@
 
 Simple Python utilities for working with Who's On First meta files.
 
-**THIS IS WORK IN PROGRESS**
-
 ## Usage
 
-TBW
+```
+import os
+import sys
+import csv
+
+import mapzen.whosonfirst.meta
+
+fn = mapzen.whosonfirst.meta.fieldnames()
+
+writer = csv.DictWriter(sys.stdout, fieldnames=fn)
+writer.writeheader()
+
+kwargs = {'paths': 'relative', 'prefix': '/usr/local/mapzen/whosonfirst-data/data'}
+
+for path in sys.argv[1:]:
+
+    path = os.path.abspath(path)
+    out = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
+
+    writer.writerow(out)
+```
 
 ## Utilities
 
