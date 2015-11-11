@@ -5,6 +5,61 @@ import os
 import logging
 import hashlib
 import geojson
+import csv
+
+import atomicwrites
+
+import mapzen.whosonfirst.utils
+
+def update_metafile(source_meta, dest_meta, updated):
+
+    features = {}
+
+    for path in updated:
+
+        path = os.path.abspath(path)
+
+        # See what's going on here - it is something between not
+        # awesome and wildly inefficient. It is possible and likely
+        # and just generally more better that we can and will
+        # simply parse the filename and extract the ID accordingly.
+        # The thing is that we need (want) to pass a file to the
+        # dump_row function in order to generate a file_hash which 
+        # a bunch of other services use for detecting changes.
+        # So, in the meantime this is what we're doing...
+        # (20151111/thisisaaronland)
+
+        feature = mapzen.whosonfirst.utils.load_file(path)
+
+        props = feature['properties']
+        wofid = props['wof:id']
+        
+        features[wofid] = path
+        
+    source_fh = open(source_meta, 'r')
+    reader = csv.DictReader(source_fh)
+
+    writer = None
+
+    with atomicwrites.atomic_write(dest_meta, overwrite=True) as dest_fh:
+
+        for row in reader:
+
+            id = row['id']
+            id = int(id)
+
+            if features.get(id, False):
+
+                logging.debug("update row for %s in %s" % (id, dest_meta))
+                
+                path = features[id]
+                row = mapzen.whosonfirst.meta.dump_file(path)
+                
+            if not writer:
+                writer = csv.DictWriter(dest_fh, fieldnames=row.keys())
+                writer.writeheader()
+
+            writer.writerow(row)
 
 def defaults():
 

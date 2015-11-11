@@ -29,55 +29,12 @@ if __name__ == '__main__':
    else:
       logging.basicConfig(level=logging.INFO)
       
-   meta = os.path.abspath(options.meta)
+   source_meta = os.path.abspath(options.meta)
 
    if not os.path.exists(meta):
       logging.error("meta file (%s) does not exist" % meta)
       sys.exit()
 
-   # I don't love this... (20151110/thisisaaronland)
+   dest_meta = source_meta
 
-   features = {}
-
-   for path in args:
-
-      path = os.path.abspath(path)
-
-      # See what's going on here - it is possible and likely
-      # and just generally more better that we can and will
-      # simply parse the filename and extract the ID accordingly
-      # (20151110/thisisaaronland)
-
-      fh = open(path, 'r')
-      feature = geojson.load(fh)
-      props = feature['properties']
-      wofid = props['wof:id']
-      
-      features[wofid] = path
-
-   #
-
-   old_fh = open(meta, 'r')
-   reader = csv.DictReader(old_fh)
-
-   writer = None
-
-   with atomicwrites.atomic_write(meta, overwrite=True) as new_fh:
-
-      for row in reader:
-
-         id = row['id']
-         id = int(id)
-
-         if features.get(id, False):
-
-            logging.info("update %s" % id)
-
-            path = features[id]
-            row = mapzen.whosonfirst.meta.dump_file(path)
-
-         if not writer:
-            writer = csv.DictWriter(new_fh, fieldnames=row.keys())
-            writer.writeheader()
-
-         writer.writerow(row)
+   mapzen.whosonfirst.meta.update_meta_file(source_meta, dest_meta, args)
