@@ -11,7 +11,7 @@ import atomicwrites
 
 import mapzen.whosonfirst.utils
 
-def update_metafile(source_meta, dest_meta, updated):
+def update_metafile(source_meta, dest_meta, updated, **kwargs):
 
     features = {}
 
@@ -53,10 +53,11 @@ def update_metafile(source_meta, dest_meta, updated):
                 logging.debug("update row for %s in %s" % (id, dest_meta))
                 
                 path = features[id]
-                row = mapzen.whosonfirst.meta.dump_file(path)
+                row = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
                 
             if not writer:
-                writer = csv.DictWriter(dest_fh, fieldnames=row.keys())
+                fn = fieldnames()
+                writer = csv.DictWriter(dest_fh, fieldnames=fn)
                 writer.writeheader()
 
             writer.writerow(row)
@@ -91,6 +92,7 @@ def fieldnames():
     stub = defaults()
     fieldnames = stub.keys()
     fieldnames.sort()
+
     return fieldnames
 
 def dump_file(path, **kwargs):
