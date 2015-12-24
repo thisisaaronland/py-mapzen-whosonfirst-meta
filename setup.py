@@ -8,21 +8,21 @@ desc = open("README.md").read(),
 setup(
     name='mapzen.whosonfirst.meta',
     namespace_packages=['mapzen', 'mapzen.whosonfirst', 'mapzen.whosonfirst.meta'],
-    version='0.6',
+    version='0.7',
     description='Simple Python utilities for working with Who\'s On First meta files',
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-whosonfirst-meta',
     install_requires=[
         'geojson',
         'atomicwrites',
-        'mapzen.whosonfirst.utils>=0.12',
+        'mapzen.whosonfirst.utils>=0.17',
         ],
     dependency_links=[
-        'https://github.com/whosonfirst/py-mapzen-whosonfirst-utils/tarball/master#egg=mapzen.whosonfirst.utils-0.16',
+        'https://github.com/whosonfirst/py-mapzen-whosonfirst-utils/tarball/master#egg=mapzen.whosonfirst.utils-0.17',
         ],
     packages=packages,
     scripts=[
         'scripts/wof-dump-meta',
         ],
-    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.5',
+    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.7',
     license='BSD')

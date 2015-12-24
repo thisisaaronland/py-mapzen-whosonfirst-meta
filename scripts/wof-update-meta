@@ -31,10 +31,10 @@ if __name__ == '__main__':
       
    source_meta = os.path.abspath(options.meta)
 
-   if not os.path.exists(meta):
-      logging.error("meta file (%s) does not exist" % meta)
+   if not os.path.exists(source_meta):
+      logging.error("meta file (%s) does not exist" % source_meta)
       sys.exit()
 
    dest_meta = source_meta
 
-   mapzen.whosonfirst.meta.update_meta_file(source_meta, dest_meta, args)
+   mapzen.whosonfirst.meta.update_metafile(source_meta, dest_meta, args)
