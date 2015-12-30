@@ -182,9 +182,9 @@ def dump_file(path, **kwargs):
         out['lbl_latitude'] = props.get('lbl:latitude', 0)
         out['lbl_longitude'] = props.get('lbl:longitude', 0)
 
-        out['inception'] = props.get('edtf:inception', 'u')
-        out['cessation'] = props.get('edtf:cessation', 'u')
-        out['deprecated'] = props.get('edtf:deprecated', 'u')
+        out['inception'] = props.get('edtf:inception', '')
+        out['cessation'] = props.get('edtf:cessation', '')
+        out['deprecated'] = props.get('edtf:deprecated', '')
 
         return out
 
