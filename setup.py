@@ -8,7 +8,7 @@ desc = open("README.md").read(),
 setup(
     name='mapzen.whosonfirst.meta',
     namespace_packages=['mapzen', 'mapzen.whosonfirst', 'mapzen.whosonfirst.meta'],
-    version='0.7',
+    version='0.8',
     description='Simple Python utilities for working with Who\'s On First meta files',
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-whosonfirst-meta',
@@ -24,5 +24,5 @@ setup(
     scripts=[
         'scripts/wof-dump-meta',
         ],
-    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.7',
+    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-meta/releases/tag/v0.8',
     license='BSD')

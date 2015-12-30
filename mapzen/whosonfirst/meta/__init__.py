@@ -83,6 +83,9 @@ def defaults():
         'lbl_longitude': 0,
         'supersedes': '',
         'superseded_by': '',
+        'inception': '',
+        'cessation': '',
+        'deprecated': '',
         }
 
     return defaults
@@ -178,6 +181,10 @@ def dump_file(path, **kwargs):
         out['geom_longitude'] = props.get('geom:longitude', 0)
         out['lbl_latitude'] = props.get('lbl:latitude', 0)
         out['lbl_longitude'] = props.get('lbl:longitude', 0)
+
+        out['inception'] = props.get('edtf:inception', 'u')
+        out['cessation'] = props.get('edtf:cessation', 'u')
+        out['deprecated'] = props.get('edtf:deprecated', 'u')
 
         return out
 
