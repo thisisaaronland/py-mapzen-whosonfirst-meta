@@ -154,9 +154,7 @@ def dump_file(path, **kwargs):
         out['source'] = source
         
         if kwargs.get('paths', 'absolute') == 'relative':
-
-            path = path.replace(kwargs.get('prefix', ''), "")
-            path = path.lstrip("/")
+            path = mapzen.whosonfirst.utils.id2relpath(wofid)
             
         out['path'] = path
 
