@@ -73,7 +73,9 @@ def defaults():
         'source': '',
         'path' : '',
         'lastmodified': 0,
-        'iso': '',
+        'iso': '',		# deprecated in favour of PREFIX_country (20160127/thisisaaronland)
+        'iso_country': '',
+        'wof_country': '',
         'bbox': '',
         'file_hash': '',
         'geom_hash': '',
@@ -85,7 +87,10 @@ def defaults():
         'superseded_by': '',
         'inception': '',
         'cessation': '',
-        'deprecated': '',
+        'deprecated': '',	# deprecated date, not deprecated (20160127/thisisaaronland)
+        'country_id': 0,
+        'region_id': 0,
+        'locality_id': 0,
         }
 
     return defaults
@@ -118,9 +123,11 @@ def dump_file(path, **kwargs):
         wofid = props.get('wof:id', None)
 
         if wofid == None:
-            logging.warning("%s is missing an wof:id property, using filename" % path)
-            fname = os.path.basename(path)
-            wofid = fname.replace(".geojson", "")
+            logging.warning("feature is missing an wof:id property!")
+            return None
+
+            # fname = os.path.basename(path)
+            # wofid = fname.replace(".geojson", "")
             
         out['id'] = wofid
 
@@ -171,7 +178,10 @@ def dump_file(path, **kwargs):
         out['supersedes'] = ",".join(map(str, supersedes))
         out['superseded_by'] = ",".join(map(str, superseded_by))
         
-        out['iso'] = props.get('iso:country', '')
+        out['iso'] = props.get('iso:country', '')		# deprecated (20160127/thisisaaronland)
+        out['iso_country'] = props.get('iso:country', '')
+        out['wof_country'] = props.get('iso:country', '')
+
         out['lastmodified'] = props.get('wof:lastmodified', 0)
         out['geom_hash'] = props.get('wof:geomhash', '')
 
@@ -183,6 +193,34 @@ def dump_file(path, **kwargs):
         out['inception'] = props.get('edtf:inception', '')
         out['cessation'] = props.get('edtf:cessation', '')
         out['deprecated'] = props.get('edtf:deprecated', '')
+
+        parent_id = props['wof:parent_id']
+        parent_hier = None
+
+        hiers = props.get('wof:hierarchy', [])
+
+        if len(hiers) == 1:
+            parent_hier = hiers[0]
+
+        elif parent_id != -1:
+
+            for h in hiers:
+
+                for ignore, id in h.items():
+                    if id == parent_id:
+                        parent_hier = h
+                        break
+
+                if parent_hier:
+                    break
+
+        else:
+            pass
+
+        if parent_hier:
+            out['country_id'] = parent_hier.get('country_id', 0)
+            out['region_id'] = parent_hier.get('region_id', 0)
+            out['locality_id'] = parent_hier.get('locality_id', 0)
 
         return out
 
