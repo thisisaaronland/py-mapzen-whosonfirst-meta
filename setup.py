@@ -27,14 +27,16 @@ setup(
     install_requires=[
         'geojson',
         'atomicwrites',
-        'mapzen.whosonfirst.utils>=0.18',
+        'mapzen.whosonfirst.utils>=0.23',
         ],
     dependency_links=[
         'https://github.com/whosonfirst/py-mapzen-whosonfirst-utils/tarball/master#egg=mapzen.whosonfirst.utils-0.18',
         ],
     packages=packages,
     scripts=[
+        'scripts/wof-default-meta',
         'scripts/wof-dump-meta',
+        'scripts/wof-update-meta',
         ],
     download_url='https://github.com/whosonfirst/py-mapzen-whosonfirst-meta/releases/tag/' + version,
     license='BSD')
