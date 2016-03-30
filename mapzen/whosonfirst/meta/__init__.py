@@ -62,6 +62,13 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
 
             writer.writerow(row)
 
+    # https://github.com/whosonfirst/py-mapzen-whosonfirst-meta/issues/2
+
+    perms = kwargs.get('perms', 0644)
+
+    if perms != None:
+        os.chmod(dest_meta, perms)
+
 def defaults():
 
     defaults = {
