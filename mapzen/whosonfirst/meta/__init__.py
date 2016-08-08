@@ -54,12 +54,21 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
                 
                 path = features[id]
                 row = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
-                
+
+                del(features[id])
+
             if not writer:
                 fn = fieldnames()
                 writer = csv.DictWriter(dest_fh, fieldnames=fn)
                 writer.writeheader()
 
+            writer.writerow(row)
+
+        for wofid, path in features.items():
+
+            print "APPEND %s (%s)" % (wofid, path)
+
+            row = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
             writer.writerow(row)
 
     # https://github.com/whosonfirst/py-mapzen-whosonfirst-meta/issues/2
