@@ -66,8 +66,6 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
 
         for wofid, path in features.items():
 
-            print "APPEND %s (%s)" % (wofid, path)
-
             row = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
             writer.writerow(row)
 
