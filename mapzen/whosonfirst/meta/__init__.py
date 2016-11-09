@@ -205,7 +205,10 @@ def dump_file(path, **kwargs):
         out['cessation'] = props.get('edtf:cessation', '')
         out['deprecated'] = props.get('edtf:deprecated', '')
 
-        parent_id = props['wof:parent_id']
+	# this should never happen but still does so rather than shout at the sky
+        # we'll just try to handle it gracefully (20161109/thisisaaronland)
+
+        parent_id = props.get('wof:parent_id', -1)
         parent_hier = None
 
         hiers = props.get('wof:hierarchy', [])
