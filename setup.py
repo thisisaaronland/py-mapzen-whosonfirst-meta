@@ -24,14 +24,6 @@ setup(
     description='Simple Python utilities for working with Who\'s On First meta files',
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-whosonfirst-meta',
-    install_requires=[
-        'geojson',
-        'atomicwrites',
-        'mapzen.whosonfirst.utils>=0.23',
-        ],
-    dependency_links=[
-        'https://github.com/whosonfirst/py-mapzen-whosonfirst-utils/tarball/master#egg=mapzen.whosonfirst.utils-0.18',
-        ],
     packages=packages,
     scripts=[
         'scripts/wof-default-meta',

@@ -5,7 +5,7 @@ Simple Python utilities for working with Who's On First meta files.
 ## Installation
 
 ```
-sudo python setup.py install
+sudo pip install -r requirements.txt .
 ```
 
 ## Usage
