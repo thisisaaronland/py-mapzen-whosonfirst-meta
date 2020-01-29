@@ -21,7 +21,7 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
         # and just generally more better that we can and will
         # simply parse the filename and extract the ID accordingly.
         # The thing is that we need (want) to pass a file to the
-        # dump_row function in order to generate a file_hash which 
+        # dump_row function in order to generate a file_hash which
         # a bunch of other services use for detecting changes.
         # So, in the meantime this is what we're doing...
         # (20151111/thisisaaronland)
@@ -30,9 +30,9 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
 
         props = feature['properties']
         wofid = props['wof:id']
-        
+
         features[wofid] = path
-        
+
     source_fh = open(source_meta, 'r')
     reader = csv.DictReader(source_fh)
 
@@ -48,7 +48,7 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
             if features.get(id, False):
 
                 logging.debug("update row for %s in %s" % (id, dest_meta))
-                
+
                 path = features[id]
                 row = mapzen.whosonfirst.meta.dump_file(path, **kwargs)
 
@@ -68,7 +68,7 @@ def update_metafile(source_meta, dest_meta, updated, **kwargs):
 
     # https://github.com/whosonfirst/py-mapzen-whosonfirst-meta/issues/2
 
-    perms = kwargs.get('perms', 0644)
+    perms = kwargs.get('perms', 0o644)
 
     if perms != None:
         os.chmod(dest_meta, perms)
@@ -109,7 +109,7 @@ def defaults():
 def fieldnames():
 
     stub = defaults()
-    fieldnames = stub.keys()
+    fieldnames = list(stub.keys())
     fieldnames.sort()
 
     return fieldnames
@@ -119,7 +119,7 @@ def dump_file(path, **kwargs):
         try:
             fh = open(path, 'r')
             feature = geojson.load(fh)
-        except Exception, e:
+        except Exception as e:
             logging.error("failed to load %s, because %s" % (path, e))
             return None
 
@@ -139,19 +139,19 @@ def dump_file(path, **kwargs):
 
             # fname = os.path.basename(path)
             # wofid = fname.replace(".geojson", "")
-            
+
         out['id'] = wofid
 
         out['parent_id'] = props.get('wof:parent_id', -1)
-        
+
         name = props.get('wof:name', None)
-        
+
         if not name:
             name = props.get('name', None)
-            
+
         if not name:
             name = ""
-            
+
         name = name.encode('utf8')
         out['name'] = name
 
@@ -170,16 +170,16 @@ def dump_file(path, **kwargs):
             source = ""
 
         out['source'] = source
-        
+
         if kwargs.get('paths', 'absolute') == 'relative':
             path = mapzen.whosonfirst.utils.id2relpath(wofid)
-            
+
         out['path'] = path
 
         bbox = feature.get('bbox', None)
-        
+
         if bbox:
-            bbox = map(str, bbox)
+            bbox = list(map(str, bbox))
             bbox = ",".join(bbox)
             out['bbox'] = bbox
 
@@ -188,7 +188,7 @@ def dump_file(path, **kwargs):
 
         out['supersedes'] = ",".join(map(str, supersedes))
         out['superseded_by'] = ",".join(map(str, superseded_by))
-        
+
         out['iso'] = props.get('iso:country', '')		# deprecated (20160127/thisisaaronland)
         out['iso_country'] = props.get('iso:country', '')
         out['wof_country'] = props.get('iso:country', '')
