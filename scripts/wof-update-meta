@@ -8,10 +8,6 @@
 import os
 import sys
 import logging
-import csv
-
-import geojson
-import atomicwrites
 
 import mapzen.whosonfirst.meta
 
@@ -23,12 +19,12 @@ if __name__ == '__main__':
    opt_parser.add_option('-m', '--meta', dest='meta', action='store', default=None, help='The path to the meta file you want to update')
    opt_parser.add_option('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Be chatty (default is false)')
    options, args = opt_parser.parse_args()
-   
-   if options.verbose:	
+
+   if options.verbose:
       logging.basicConfig(level=logging.DEBUG)
    else:
       logging.basicConfig(level=logging.INFO)
-      
+
    source_meta = os.path.abspath(options.meta)
 
    if not os.path.exists(source_meta):
