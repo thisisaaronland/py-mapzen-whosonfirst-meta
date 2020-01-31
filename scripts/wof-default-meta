@@ -5,14 +5,14 @@ import sys
 import mapzen.whosonfirst.meta
 
 if __name__ == '__main__':
-   
+
    defaults = mapzen.whosonfirst.meta.defaults()
 
    keys = defaults.keys()
    keys.sort()
 
    for k in keys:
-      print "* %s _default value is '%s'_" % (k, defaults[k])
+      print("* %s _default value is '%s'_" % (k, defaults[k]))
 
    sys.exit()
 
